@@ -1,0 +1,35 @@
+@(cats: List[Cat], ats: List[Ats])
+
+
+@main("Cat database") {
+  <h2>Insert a kitty cat here:</h2>
+
+  <form action="/insert" method="POST">
+    <input name="create_at" type="text" value="N" placeholder="create_at"/>
+    <input name="userID" type="text" placeholder="name your feline friend"/>
+    <input name="bala" type="text" placeholder="enter the color of this kitty cat"/>
+    <input name="url" type="text" value="N" placeholder="URL"/>
+    <input name="headers" type="text" value="N" placeholder="headers"/>
+    <input type="submit"/>
+  </form>
+
+  <h2>Previously inserted cats:</h2>
+  <table>
+    <tr><th>Name</th><th>Color</th></tr>
+    @for(c <- cats){ 
+    <tr><td>@c.create_at</td><tr><td>@c.userID</td><td>@c.bala</td><td>@c.url</td><td>@c.headers</td></tr>
+    }
+  </table>
+
+
+  <h2>Previously inserted ats:</h2>
+  <table>
+    <tr><th>IP</th><th>bala</th></tr>
+    @for(c <- ats){ 
+    <tr><td>@c.create_at</td><tr><td>@c.ip</td><td>@c.bala</td><td>@c.url</td><td>@c.headers</td></tr>
+    }
+  </table>
+
+
+    
+}

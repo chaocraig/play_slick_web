@@ -1,0 +1,6 @@
+[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/application.conf,/Users/cray/Documents/workspace-scala/play-slick-quickstart/target/scala-2.10/classes/application.conf)[0m
+[0m[[0mdebug[0m] [0m	(/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/evolutions,/Users/cray/Documents/workspace-scala/play-slick-quickstart/target/scala-2.10/classes/evolutions)[0m
+[0m[[0mdebug[0m] [0m	(/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/routes,/Users/cray/Documents/workspace-scala/play-slick-quickstart/target/scala-2.10/classes/routes)[0m
+[0m[[0mdebug[0m] [0m	(/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/evolutions/default,/Users/cray/Documents/workspace-scala/play-slick-quickstart/target/scala-2.10/classes/evolutions/default)[0m
+[0m[[0mdebug[0m] [0m	(/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/evolutions/default/1.sql,/Users/cray/Documents/workspace-scala/play-slick-quickstart/target/scala-2.10/classes/evolutions/default/1.sql)[0m
