@@ -18,6 +18,8 @@ import play.api.libs.json.Json._
 
 import com.vpon.decrypt._;
 
+import com.vpon.xforward._;
+
 
 
 object Application extends Controller{
@@ -26,6 +28,8 @@ object Application extends Controller{
   val cats = TableQuery[CatsTable] //see a way to architect your app in the computers-database-slick sample  
   val atsDb  = TableQuery[AtsTable] 
   val convDb = TableQuery[ConvTable] 
+  
+  final val NO_IP_STR = "X"
 
   //JSON read/write macro
   implicit val catFormat = Json.format[Cat]
@@ -84,13 +88,24 @@ object Application extends Controller{
     }.getOrElse(BadRequest("invalid json"))    
   }
   
+  
+  def getPublicIp(x: String) = {
+
+		val para = new ParameterUtil()
+		val oldIp = x   //x-forwarded-for ???
+		val newIp = para.getLastPublicProxyIP(oldIp)
+		
+		newIp
+  }
+  
   def turn(userID1: String, bala1:String) = DBAction { implicit rs =>
     //val userID: Option[String] = request.getQueryString("userID")
     //val bala: Option[String] = request.getQueryString("bala")
       val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
       val url = rs.uri
       val headers = rs.headers.toString
-      val userID = rs.remoteAddress  //x-forwarded-for ???
+      val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
+      val userID = getPublicIp(ips)
       val cat = Cat(create_at, userID, bala1, url, headers)
       val nearestID = cats.filter(_.userID === userID1).sortBy(_.column[String]("create_at").desc).take(1)
       val nearestSQL = nearestID.selectStatement
@@ -118,7 +133,8 @@ object Application extends Controller{
    def getAts(rs:RequestHeader) = {
 
        val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
-       val client_ip = rs.remoteAddress
+       val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
+       val client_ip = getPublicIp(ips)
        val url = rs.uri
        val headers = rs.headers.toString
        val ats = Ats(create_at, client_ip, "N", url, headers)
@@ -136,12 +152,19 @@ object Application extends Controller{
        atsDb.insert(ats)
        
        val nearestID = cats.filter(_.userID === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
-       val cat = nearestID.list.head
-       val conv = Conv(cat.create_at, cat.userID) 
-       convDb.insert(conv)
 
-       val msg=""
-       Ok(msg)
+       val msg = "goalAdActivation! \n"
+       var msg2 = ""
+       if ( (nearestID.list eq Nil)||(nearestID.list.head eq Nil) ) {
+           msg2 = "\n Not found! " + ats.toString
+       } else {
+           val cat = nearestID.list.head
+           val conv = Conv(cat.create_at, cat.userID) 
+           convDb.insert(conv)
+           msg2 = "\nInsert: " + conv.toString
+       }
+
+       Ok(msg+"ATS_IP="+ats.ip+msg2)
    }
   
    def goalAdConversion = DBAction { implicit  rs =>
@@ -155,12 +178,19 @@ object Application extends Controller{
        atsDb.insert(ats)
        
        val nearestID = cats.filter(_.userID === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
-       val cat = nearestID.list.head
-       val conv = Conv(cat.create_at, cat.userID) 
-       convDb.insert(conv)
 
-       val msg=""
-       Ok(msg)
-   }
+       val msg = "goalAdConversion! \n"
+       var msg2 = ""
+       if ( (nearestID.list eq Nil)||(nearestID.list.head eq Nil) ) {
+           msg2 = "\n Not found! " + ats.toString
+       } else {
+           val cat = nearestID.list.head
+           val conv = Conv(cat.create_at, cat.userID) 
+           convDb.insert(conv)
+           msg2 = "\nInsert: " + conv.toString
+       }
+
+       Ok(msg+"ATS_IP="+ats.ip+msg2)
+    }
   
 }
