@@ -1,50 +1,26 @@
-2014-07-09 18:15:18,864 - [INFO] - from play in pool-33-thread-1 
+2014-07-15 12:31:33,982 - [INFO] - from play in pool-33-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2014-07-09 18:19:43,756 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
+2014-07-15 12:31:48,822 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
 JDBC URL = jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8, Username = root, partitions = 1, max (per partition) = 30, min (per partition) = 5, idle max age = 10 min, idle test period = 1 min, strategy = DEFAULT
 
-2014-07-09 18:19:43,985 - [INFO] - from play in play-internal-execution-context-1 
+2014-07-15 12:31:49,095 - [INFO] - from play in play-internal-execution-context-1 
 database [default] connected at jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8
 
-2014-07-09 18:19:45,265 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-07-15 12:31:50,479 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%'
 
-2014-07-09 18:19:45,268 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-07-15 12:31:50,482 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 
             select id, hash, apply_script, revert_script from play_evolutions order by id
         
 
-2014-07-09 18:19:45,688 - [INFO] - from play in play-internal-execution-context-1 
+2014-07-15 12:31:50,600 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2014-07-09 18:19:48,307 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-INSERT INTO `ATS` (`create_at`,`ip`,`bala`,`url`,`headers`) VALUES ('2014-07-09 18:19:48:2370','11.22.33.44','N','/api/goalAdConversion','ArrayBuffer((Postman-Token,ArrayBuffer(6935c39b-3810-e49a-63fb-bed853b8f5ee)), (X-ADON-SDK_NAME,ArrayBuffer(Android)), (Origin,ArrayBuffer(chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop)), (X-Forwarded-For,ArrayBuffer(11.22.33.44)), (Connection,ArrayBuffer(keep-alive)), (Content-Length,ArrayBuffer(1092)), (X-ADON-SDK_VERSION,ArrayBuffer(1.0.0)), (Accept,ArrayBuffer(*/*)), (Cache-Control,ArrayBuffer(no-cache)), (Content-Type,ArrayBuffer(application/x-www-form-urlencoded)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
+2014-07-15 12:31:52,947 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
+INSERT INTO `CAT` (`create_at`,`userID`,`bala`,`url`,`headers`) VALUES ('2014-07-15 12:31:52:5070','X','1WEBbaba12345','/turn?userID=1WEB1234A&bala=1WEBbaba12345','ArrayBuffer((Connection,ArrayBuffer(keep-alive)), (Accept,ArrayBuffer(text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
 
-2014-07-09 18:19:48,451 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:19:48,477 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:19:48,496 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:19:48,498 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-INSERT INTO `CONV` (`create_at`,`userID`) VALUES ('N','11.22.33.44')
-
-2014-07-09 18:21:42,045 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
-INSERT INTO `ATS` (`create_at`,`ip`,`bala`,`url`,`headers`) VALUES ('2014-07-09 18:21:42:0430','11.22.33.44','N','/api/goalAdConversion','ArrayBuffer((Postman-Token,ArrayBuffer(f40d3593-55bf-854f-83d7-baa2ca24c7ad)), (X-ADON-SDK_NAME,ArrayBuffer(Android)), (Origin,ArrayBuffer(chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop)), (X-Forwarded-For,ArrayBuffer(11.22.33.44)), (Connection,ArrayBuffer(keep-alive)), (Content-Length,ArrayBuffer(1092)), (X-ADON-SDK_VERSION,ArrayBuffer(1.0.0)), (Accept,ArrayBuffer(*/*)), (Cache-Control,ArrayBuffer(no-cache)), (Content-Type,ArrayBuffer(application/x-www-form-urlencoded)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
-
-2014-07-09 18:21:42,064 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:21:42,082 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:21:42,102 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '11.22.33.44' order by x3.`create_at` desc limit 1) x2
-
-2014-07-09 18:21:42,103 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
-INSERT INTO `CONV` (`create_at`,`userID`) VALUES ('2014-07-09 18:11:33:9680','11.22.33.44')
+2014-07-15 12:31:53,016 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
+select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '1WEB1234A' order by x3.`create_at` desc limit 1) x2
 
