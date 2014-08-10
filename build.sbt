@@ -1,4 +1,4 @@
-name := """play-slick-quickstart"""
+name := """play_slick_web"""
 
 version := "1.0-SNAPSHOT"
 

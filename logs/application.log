@@ -1,26 +1,29 @@
-2014-07-15 12:31:33,982 - [INFO] - from play in pool-33-thread-4 
+2014-08-10 15:42:08,129 - [INFO] - from play in pool-48-thread-2 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2014-07-15 12:31:48,822 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
+2014-08-10 15:42:13,094 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
 JDBC URL = jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8, Username = root, partitions = 1, max (per partition) = 30, min (per partition) = 5, idle max age = 10 min, idle test period = 1 min, strategy = DEFAULT
 
-2014-07-15 12:31:49,095 - [INFO] - from play in play-internal-execution-context-1 
+2014-08-10 15:42:13,363 - [INFO] - from play in play-internal-execution-context-1 
 database [default] connected at jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8
 
-2014-07-15 12:31:50,479 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-08-10 15:42:14,810 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%'
 
-2014-07-15 12:31:50,482 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-08-10 15:42:14,812 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 
             select id, hash, apply_script, revert_script from play_evolutions order by id
         
 
-2014-07-15 12:31:50,600 - [INFO] - from play in play-internal-execution-context-1 
+2014-08-10 15:42:14,935 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2014-07-15 12:31:52,947 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-INSERT INTO `CAT` (`create_at`,`userID`,`bala`,`url`,`headers`) VALUES ('2014-07-15 12:31:52:5070','X','1WEBbaba12345','/turn?userID=1WEB1234A&bala=1WEBbaba12345','ArrayBuffer((Connection,ArrayBuffer(keep-alive)), (Accept,ArrayBuffer(text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
+2014-08-10 15:42:17,516 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
+INSERT INTO `CAT` (`create_at`,`uid`,`bala`,`ip`,`url`,`headers`) VALUES ('2014-08-10 15:42:17:2060','1234','baba12345','X','/turn?uid=1234&bala=baba12345','ArrayBuffer((Connection,ArrayBuffer(keep-alive)), (Accept,ArrayBuffer(text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8)), (Cache-Control,ArrayBuffer(max-age=0)), (Cookie,ArrayBuffer(PHPSESSID=91ksjbh7cclfe9naerbrkht5h6; username=admin%40spikaapp.com; password=password)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
 
-2014-07-15 12:31:53,016 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-1 
-select x2.`create_at`, x2.`userID`, x2.`bala`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`userID` as `userID`, x3.`bala` as `bala` from `CAT` x3 where x3.`userID` = '1WEB1234A' order by x3.`create_at` desc limit 1) x2
+2014-08-10 15:42:25,117 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-2 
+INSERT INTO `CAT` (`create_at`,`uid`,`bala`,`ip`,`url`,`headers`) VALUES ('2014-08-10 15:42:25:1140','1234','baba12345','X','/turn?uid=1234&bala=baba12345','ArrayBuffer((Connection,ArrayBuffer(keep-alive)), (Accept,ArrayBuffer(text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8)), (Cache-Control,ArrayBuffer(max-age=0)), (Cookie,ArrayBuffer(PHPSESSID=91ksjbh7cclfe9naerbrkht5h6; username=admin%40spikaapp.com; password=password)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
+
+2014-08-10 15:43:09,766 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in slick.db.execution.context-3 
+INSERT INTO `CAT` (`create_at`,`uid`,`bala`,`ip`,`url`,`headers`) VALUES ('2014-08-10 15:43:09:7620','1234AA','baba12345','X','/turn?uid=1234AA&bala=baba12345','ArrayBuffer((Connection,ArrayBuffer(keep-alive)), (Accept,ArrayBuffer(text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8)), (Cookie,ArrayBuffer(PHPSESSID=91ksjbh7cclfe9naerbrkht5h6; username=admin%40spikaapp.com; password=password)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
 

@@ -6,9 +6,10 @@
 
   <form action="/insert" method="POST">
     <input name="create_at" type="text" value="N" placeholder="create_at"/>
-    <input name="userID" type="text" placeholder="name your feline friend"/>
+    <input name="uid" type="text" placeholder="name your feline friend"/>
     <input name="bala" type="text" placeholder="enter the color of this kitty cat"/>
-    <input name="url" type="text" value="N" placeholder="URL"/>
+    <input name="ip" type="text" value="IP" placeholder="URL"/>
+    <input name="url" type="text" value="URL" placeholder="URL"/>
     <input name="headers" type="text" value="N" placeholder="headers"/>
     <input type="submit"/>
   </form>
@@ -17,7 +18,7 @@
   <table>
     <tr><th>Name</th><th>Color</th></tr>
     @for(c <- cats){ 
-    <tr><td>@c.create_at</td><tr><td>@c.userID</td><td>@c.bala</td><td>@c.url</td><td>@c.headers</td></tr>
+    <tr><td>@c.create_at</td><tr><td>@c.uid</td><td>@c.bala</td><td>@c.ip</td><td>@c.url</td><td>@c.headers</td></tr>
     }
   </table>
 

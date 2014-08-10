@@ -3,7 +3,7 @@
 # ~~~~
 
 # for TURN DSP
-GET     /turn                    controllers.Application.turn(userID: String, bala: String)
+GET     /turn                    controllers.Application.turn(uid: String, bala: String)
 
 # Home page
 GET     /                           controllers.Application.index

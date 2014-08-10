@@ -34,7 +34,8 @@ object Application extends Controller{
   val convDb = TableQuery[ConvTable] 
   
   final val NO_IP_STR = "X"
-  final val CONV_HTTPS = "/usr/bin/curl https://sr.turn.com/r/beacon?b2=woCSVkJtHoKbplkrPGHL2wk98Cn3xcHMQ60wld9Ibke_6ehyMoDwzXEwzDS4u4ruFJau0A8_GRSw-6Lmy0tf_g&cid=&uid=&device_sha1=&platform_sha1=&ifa=&mac_sha1=&bprice="
+  final val CONV_HTTP_HEAD = "/usr/bin/curl https://sr.turn.com/r/beacon?b2=woCSVkJtHoKbplkrPGHL2wk98Cn3xcHMQ60wld9Ibke_6ehyMoDwzXEwzDS4u4ruFJau0A8_GRSw-6Lmy0tf_g&cid=&uid="
+  final val CONV_HTTP_TAIL = "&device_sha1=&platform_sha1=&ifa=&mac_sha1=&bprice="
   //final val CONV_HTTPS = "/usr/bin/curl http://127.0.0.1:9000/turn?userID=PLAY12&bala=PLAY12345"
   final val SHELL_LOG_FILE = "/var/tmp/play_slick_log.txt"
 
@@ -48,8 +49,9 @@ object Application extends Controller{
   val catForm = Form(
     mapping(
       "create_at" -> text(),
-      "userID" -> text(),
+      "uid" -> text(),
       "bala" -> text(),
+      "ip" -> text(),
       "url" -> text(),
       "headers" -> text()
     )(Cat.apply)(Cat.unapply)
@@ -69,7 +71,8 @@ object Application extends Controller{
   val convForm = Form(
     mapping(
       "create_at" -> text(),
-      "userID" -> text()
+      "uid" -> text(),
+      "ip" -> text()
     )(Conv.apply)(Conv.unapply)
   )
 
@@ -106,36 +109,30 @@ object Application extends Controller{
   }
   
   
-  def runShellHtpps() = {
+  def runShellHtpps(uid:String) = {
      val output0 =  "ls ".!
 
      //val cmd = Seq("curl", CONV_HTTPS, ">>", SHELL_LOG_FILE)
      //   cmd.lines
-     val cmd_str = CONV_HTTPS + " >> " + SHELL_LOG_FILE
-     //val output = cmd_str.!
+     val cmd_str = CONV_HTTP_HEAD + uid + CONV_HTTP_TAIL + " >> " + SHELL_LOG_FILE
+     val output = cmd_str.!
      
   }
   
   
-  def turn(userID1: String, bala1:String) = DBAction { implicit rs =>
+  def turn(uid: String, bala1:String) = DBAction { implicit rs =>
     //val userID: Option[String] = request.getQueryString("userID")
     //val bala: Option[String] = request.getQueryString("bala")
       val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
       val url = rs.uri
       val headers = rs.headers.toString
       val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
-      val userID = getPublicIp(ips)
-      val cat = Cat(create_at, userID, bala1, url, headers)
-      val nearestID = cats.filter(_.userID === userID1).sortBy(_.column[String]("create_at").desc).take(1)
-      val nearestSQL = nearestID.selectStatement
-      
+      val ip = getPublicIp(ips)
+      val cat = Cat(create_at, uid, bala1, ip, url, headers)
       cats.insert(cat)
+     
       
-      //test shell commands
-      //new URL(CONV_HTTPS) #>> new File("/var/tmp/scala-lang.html") !
-      runShellHtpps()
-      
-      val msg = "\nClick: ["+nearestSQL+"]\n\n<"+nearestID.list.mkString("\n")+">\n" + toJson(cat)
+      val msg =  toJson(cat)
       Ok(msg)
         //Ok("Hello!  userID="+userID+", bala="+bala)
    }
@@ -174,7 +171,7 @@ object Application extends Controller{
        val ats=getAts(rs)
        atsDb.insert(ats)
        
-       val nearestID = cats.filter(_.userID === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
+       val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
 
        val msg = "goalAdActivation! \n"
        var msg2 = ""
@@ -187,9 +184,10 @@ object Application extends Controller{
                    msg2 = "\n Not found! " + ats.toString
                } else {
                    val cat = nearestID.list.head
-                   val conv = Conv(cat.create_at, cat.userID) 
+                   val conv = Conv(cat.create_at, cat.uid, cat.ip) 
                    convDb.insert(conv)
                    msg2 = "\nInsert: " + conv.toString
+                   runShellHtpps(cat.uid)
                }
            }
        }
@@ -207,7 +205,7 @@ object Application extends Controller{
        val ats=getAts(rs)
        atsDb.insert(ats)
        
-       val nearestID = cats.filter(_.userID === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
+       val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
 
        val msg = "goalAdConversion! \n"
        var msg2 = ""
@@ -219,10 +217,11 @@ object Application extends Controller{
                    msg2 = "\n Not found! " + ats.toString
                } else {
                    val cat = nearestID.list.head
-                   val conv = Conv(cat.create_at, cat.userID) 
+                   val conv = Conv(cat.create_at, cat.uid, cat.ip) 
                    convDb.insert(conv)
                    msg2 = "\nInsert: " + conv.toString
-               }
+                   runShellHtpps(cat.uid)
+                }
            }
        }
        

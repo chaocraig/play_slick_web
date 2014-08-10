@@ -1,6 +1,6 @@
-// @SOURCE:/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/routes
-// @HASH:e043efe6fc21851e153481f863240ae438a00326
-// @DATE:Thu Jun 26 21:15:16 CST 2014
+// @SOURCE:/Users/cray/Documents/workspace-scala/play_slick_web/conf/routes
+// @HASH:077912b0446f9b2ddf2c40aa4a2450a20e6391dd
+// @DATE:Sun Aug 10 15:41:40 CST 2014
 
 
 import play.core._
@@ -59,7 +59,7 @@ private[this] lazy val controllers_Application_goalAdActivation6 = Route("POST",
 // @LINE:24
 private[this] lazy val controllers_Application_goalAdConversion7 = Route("POST", PathPattern(List(StaticPart(Routes.prefix),StaticPart(Routes.defaultPrefix),StaticPart("api/goalAdConversion"))))
         
-def documentation = List(("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """turn""","""controllers.Application.turn(userID:String, bala:String)"""),("""GET""", prefix,"""controllers.Application.index"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """insert""","""controllers.Application.insert"""),("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """json/all""","""controllers.Application.jsonFindAll"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """json/insert""","""controllers.Application.jsonInsert"""),("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """assets/$file<.+>""","""controllers.Assets.at(path:String = "/public", file:String)"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """api/goalAdActivation""","""controllers.Application.goalAdActivation"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """api/goalAdConversion""","""controllers.Application.goalAdConversion""")).foldLeft(List.empty[(String,String,String)]) { (s,e) => e.asInstanceOf[Any] match {
+def documentation = List(("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """turn""","""controllers.Application.turn(uid:String, bala:String)"""),("""GET""", prefix,"""controllers.Application.index"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """insert""","""controllers.Application.insert"""),("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """json/all""","""controllers.Application.jsonFindAll"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """json/insert""","""controllers.Application.jsonInsert"""),("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """assets/$file<.+>""","""controllers.Assets.at(path:String = "/public", file:String)"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """api/goalAdActivation""","""controllers.Application.goalAdActivation"""),("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """api/goalAdConversion""","""controllers.Application.goalAdConversion""")).foldLeft(List.empty[(String,String,String)]) { (s,e) => e.asInstanceOf[Any] match {
   case r @ (_,_,_) => s :+ r.asInstanceOf[(String,String,String)]
   case l => s ++ l.asInstanceOf[List[(String,String,String)]] 
 }}
@@ -69,8 +69,8 @@ def routes:PartialFunction[RequestHeader,Handler] = {
 
 // @LINE:6
 case controllers_Application_turn0(params) => {
-   call(params.fromQuery[String]("userID", None), params.fromQuery[String]("bala", None)) { (userID, bala) =>
-        invokeHandler(controllers.Application.turn(userID, bala), HandlerDef(this, "controllers.Application", "turn", Seq(classOf[String], classOf[String]),"GET", """ for TURN DSP""", Routes.prefix + """turn"""))
+   call(params.fromQuery[String]("uid", None), params.fromQuery[String]("bala", None)) { (uid, bala) =>
+        invokeHandler(controllers.Application.turn(uid, bala), HandlerDef(this, "controllers.Application", "turn", Seq(classOf[String], classOf[String]),"GET", """ for TURN DSP""", Routes.prefix + """turn"""))
    }
 }
         

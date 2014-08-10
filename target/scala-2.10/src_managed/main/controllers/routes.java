@@ -1,6 +1,6 @@
-// @SOURCE:/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/routes
-// @HASH:e043efe6fc21851e153481f863240ae438a00326
-// @DATE:Thu Jun 26 21:15:16 CST 2014
+// @SOURCE:/Users/cray/Documents/workspace-scala/play_slick_web/conf/routes
+// @HASH:077912b0446f9b2ddf2c40aa4a2450a20e6391dd
+// @DATE:Sun Aug 10 15:41:40 CST 2014
 
 package controllers;
 

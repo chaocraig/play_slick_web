@@ -1,6 +1,6 @@
-// @SOURCE:/Users/cray/Documents/workspace-scala/play-slick-quickstart/conf/routes
-// @HASH:e043efe6fc21851e153481f863240ae438a00326
-// @DATE:Thu Jun 26 21:15:16 CST 2014
+// @SOURCE:/Users/cray/Documents/workspace-scala/play_slick_web/conf/routes
+// @HASH:077912b0446f9b2ddf2c40aa4a2450a20e6391dd
+// @DATE:Sun Aug 10 15:41:40 CST 2014
 
 import Routes.{prefix => _prefix, defaultPrefix => _defaultPrefix}
 import play.core._
@@ -65,8 +65,8 @@ def goalAdActivation(): Call = {
                                                 
 
 // @LINE:6
-def turn(userID:String, bala:String): Call = {
-   Call("GET", _prefix + { _defaultPrefix } + "turn" + queryString(List(Some(implicitly[QueryStringBindable[String]].unbind("userID", userID)), Some(implicitly[QueryStringBindable[String]].unbind("bala", bala)))))
+def turn(uid:String, bala:String): Call = {
+   Call("GET", _prefix + { _defaultPrefix } + "turn" + queryString(List(Some(implicitly[QueryStringBindable[String]].unbind("uid", uid)), Some(implicitly[QueryStringBindable[String]].unbind("bala", bala)))))
 }
                                                 
 
@@ -169,8 +169,8 @@ def goalAdActivation : JavascriptReverseRoute = JavascriptReverseRoute(
 def turn : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.Application.turn",
    """
-      function(userID,bala) {
-      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "turn" + _qS([(""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("userID", userID), (""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("bala", bala)])})
+      function(uid,bala) {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "turn" + _qS([(""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("uid", uid), (""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("bala", bala)])})
       }
    """
 )
@@ -268,8 +268,8 @@ def goalAdActivation(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef
                       
 
 // @LINE:6
-def turn(userID:String, bala:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
-   controllers.Application.turn(userID, bala), HandlerDef(this, "controllers.Application", "turn", Seq(classOf[String], classOf[String]), "GET", """ for TURN DSP""", _prefix + """turn""")
+def turn(uid:String, bala:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   controllers.Application.turn(uid, bala), HandlerDef(this, "controllers.Application", "turn", Seq(classOf[String], classOf[String]), "GET", """ for TURN DSP""", _prefix + """turn""")
 )
                       
 
