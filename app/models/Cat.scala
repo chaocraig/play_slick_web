@@ -4,7 +4,7 @@ import play.api.db.slick.Config.driver.simple._
 
 case class Cat(create_at: String, uid: String, bala: String, ip:String, url: String, headers: String)
 
-case class Ats(create_at: String, ip: String, bala: String, url: String, headers: String)
+case class Ats(create_at: String, ip: String, action_type: String, goalId:String, url: String, headers: String)
 
 case class Conv(create_at: String, uid: String, ip:String)
 
@@ -32,11 +32,12 @@ class AtsTable(tag: Tag) extends Table[Ats](tag, "ATS") {
 
   def create_at = column[String]("create_at", O.NotNull)
   def ip = column[String]("ip", O.NotNull)
-  def bala = column[String]("bala", O.NotNull)
+  def action_type = column[String]("action_type", O.NotNull)
+  def goalId = column[String]("goalId", O.NotNull)
   def url = column[String]("url", O.DBType("varchar(1024)"))
   def headers = column[String]("headers", O.DBType("varchar(2048)"))
 
-  def * = (create_at, ip, bala, url, headers) <> (Ats.tupled, Ats.unapply _)
+  def * = (create_at, ip, action_type, goalId, url, headers) <> (Ats.tupled, Ats.unapply _)
 }
 
 /* Table mapping

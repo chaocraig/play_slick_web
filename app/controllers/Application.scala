@@ -33,12 +33,17 @@ object Application extends Controller{
   val atsDb  = TableQuery[AtsTable] 
   val convDb = TableQuery[ConvTable] 
   
-  final val NO_IP_STR = "X"
+  final val REDIRECT_URL   = "http://www.vpon.com/"
+  final val GOAL_ID        = "7477abcd123456abcd123456abcd12345688"
+  final val NO_IP_STR      = "X"
   final val CONV_HTTP_HEAD = "/usr/bin/curl https://sr.turn.com/r/beacon?b2=woCSVkJtHoKbplkrPGHL2wk98Cn3xcHMQ60wld9Ibke_6ehyMoDwzXEwzDS4u4ruFJau0A8_GRSw-6Lmy0tf_g&cid=&uid="
   final val CONV_HTTP_TAIL = "&device_sha1=&platform_sha1=&ifa=&mac_sha1=&bprice="
   //final val CONV_HTTPS = "/usr/bin/curl http://127.0.0.1:9000/turn?userID=PLAY12&bala=PLAY12345"
   final val SHELL_LOG_FILE = "/var/tmp/play_slick_log.txt"
-
+  
+  final val ATS_ACTIVATION = "20012"
+  final val ATS_CONVERSION = "20013"
+  
   //JSON read/write macro
   implicit val catFormat = Json.format[Cat]
 
@@ -61,7 +66,8 @@ object Application extends Controller{
     mapping(
       "create_at" -> text(),
       "ip" -> text(),
-      "bala" -> text(),
+      "action_type" -> text(),
+      "goalId" -> text(),
       "url" -> text(),
       "headers" -> text()
     )(Ats.apply)(Ats.unapply)
@@ -120,19 +126,23 @@ object Application extends Controller{
   }
   
   
-  def turn(uid: String, bala1:String) = DBAction { implicit rs =>
+  def turn(uid: String, bala1:String) = DBAction {  rs =>
     //val userID: Option[String] = request.getQueryString("userID")
     //val bala: Option[String] = request.getQueryString("bala")
       val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
       val url = rs.uri
       val headers = rs.headers.toString
-      val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
+      val ips = rs.remoteAddress  //x-forwarded-for ???
       val ip = getPublicIp(ips)
       val cat = Cat(create_at, uid, bala1, ip, url, headers)
-      cats.insert(cat)
-     
+      
+      play.api.db.slick.DB.withSession{ implicit session =>
+         cats.insert(cat)
+      }
       
       val msg =  toJson(cat)
+      
+      Redirect(REDIRECT_URL)
       Ok(msg)
         //Ok("Hello!  userID="+userID+", bala="+bala)
    }
@@ -150,82 +160,91 @@ object Application extends Controller{
    }
 
 
-   def getAts(rs:RequestHeader) = {
+   def getAts(rs:RequestHeader, action_type:String, goalId:String) = {
 
        val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
        val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
        val client_ip = getPublicIp(ips)
        val url = rs.uri
        val headers = rs.headers.toString
-       val ats = Ats(create_at, client_ip, "N", url, headers)
+       val ats = Ats(create_at, client_ip, action_type, goalId, url, headers)
        ats
    }
 
+  
+   def ats_conversion(rs:RequestHeader, action_type:String, goalId:String):String = {
+       
+       if ( action_type==ATS_CONVERSION && goalId==GOAL_ID) {
+          play.api.db.slick.DB.withSession { implicit session =>
+                val ats=getAts(rs, action_type, goalId)
+                atsDb.insert(ats)
 
-   def goalAdActivation = DBAction { implicit  rs =>
-       /* parse ATS
-       val data = rs.body.asFormUrlEncoded.get("data")(0)
-       val p = rs.body.asFormUrlEncoded.get("p")(0)
-       val msg = decodeGoalAd(data, p)
-       */
-       val ats=getAts(rs)
-       atsDb.insert(ats)
-       
-       val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
+                val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
 
-       val msg = "goalAdActivation! \n"
-       var msg2 = ""
+                val msg = action_type + " \n"
+                var msg2 = nearestID.list.toString
        
-       nearestID.list match {
-           case List() => msg2 = "\n Not found! " + ats.toString
-           case Nil    => msg2 = "\n Not found! " + ats.toString
-           case _      => {
-               if (nearestID.list.head == List() ) {
-                   msg2 = "\n Not found! " + ats.toString
-               } else {
-                   val cat = nearestID.list.head
-                   val conv = Conv(cat.create_at, cat.uid, cat.ip) 
-                   convDb.insert(conv)
-                   msg2 = "\nInsert: " + conv.toString
-                   runShellHtpps(cat.uid)
-               }
-           }
-       }
        
-       Ok(msg+"ATS_IP="+ats.ip+msg2)
+                nearestID.list match {
+                   case List() => msg2 = "\n Not found! " + ats.toString
+                   case Nil    => msg2 = "\n Not found! " + ats.toString
+                   case _      => {
+                      if (nearestID.list.head == List() ) {
+                         msg2 = "\n Not found! " + ats.toString
+                      } else {
+                         val cat = nearestID.list.head
+                         if (cat == Nil) {}
+                         else {
+                             val conv = Conv(cat.create_at, cat.uid, cat.ip) 
+                             convDb.insert(conv)
+                             msg2 = cat.uid+"\nInsert: " + conv.toString
+                             runShellHtpps(cat.uid)
+                         }
+                      }
+                   }
+                 }
+                 msg+"ATS_IP="+ats.ip+"\nID: "+msg2
+            }
+         } else (action_type+":goalId: "+goalId)
+         
+   }
+
+   def goalAdActivation = Action { implicit rs => 
+      
+       val p = rs.body.asFormUrlEncoded.get("p").head
+       val data = rs.body.asFormUrlEncoded.get("data").head
+       val json_data = decodeGoalAd(data, p)
+       
+       val msg_json = Json.parse(json_data)
+       val goalId = (msg_json \ "goalId").asOpt[String]
+        
+        goalId match {
+            case Some(goalId_str:String) => {
+                val msg = ats_conversion(rs, ATS_ACTIVATION, goalId_str)
+                Ok(goalId+":Success! "+msg)
+            }
+            case _ => Ok(goalId+":No goalId False! "+json_data.toString)
+        }    
+        
    }
   
-   def goalAdConversion = DBAction { implicit  rs =>
-       /* parse ATS
-       val data = rs.body.asFormUrlEncoded.get("data")(0)
-       val p = rs.body.asFormUrlEncoded.get("p")(0)
-       val msg = decodeGoalAd(data, p)
-       */
+   def goalAdConversion = Action { implicit  rs =>
+      
+       val p = rs.body.asFormUrlEncoded.get("p").head
+       val data = rs.body.asFormUrlEncoded.get("data").head
+       val json_data = decodeGoalAd(data, p)
        
-       val ats=getAts(rs)
-       atsDb.insert(ats)
-       
-       val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
-
-       val msg = "goalAdConversion! \n"
-       var msg2 = ""
-       nearestID.list match {
-           case List() => msg2 = "\n Not found! " + ats.toString
-           case Nil    => msg2 = "\n Not found! " + ats.toString
-           case _      => {
-               if (nearestID.list.head == List() ) {
-                   msg2 = "\n Not found! " + ats.toString
-               } else {
-                   val cat = nearestID.list.head
-                   val conv = Conv(cat.create_at, cat.uid, cat.ip) 
-                   convDb.insert(conv)
-                   msg2 = "\nInsert: " + conv.toString
-                   runShellHtpps(cat.uid)
-                }
-           }
-       }
-       
-       Ok(msg+"ATS_IP="+ats.ip+msg2)
-    }
-  
+       val msg_json = Json.parse(json_data)
+       val goalId = (msg_json \ "goalId").asOpt[String]
+        
+        goalId match {
+            case Some(goalId_str:String) => {
+                val msg = ats_conversion(rs, ATS_CONVERSION, goalId_str)
+                Ok(goalId+":Success! "+msg)
+            }
+            case _ => Ok(goalId+":No goalId False! "+json_data.toString)
+        }    
+        
+   }
 }
+
