@@ -7,7 +7,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies for default#play_slick_web_2.10;1.0-SNAPSHOT [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies default#play_slick_web_2.10;1.0-SNAPSHOT->org.scala-lang#scala-library;2.10.3 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.10.3 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@aebd7d3[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5353f406[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.10.3[0m
 [0m[[0mdebug[0m] [0m	local: revision in cache: org.scala-lang#scala-library;2.10.3[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.10.3 in sbt-chain[0m
@@ -7951,7 +7951,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] log4j#log4j;1.2.15!log4j.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.aspectj#aspectjweaver;1.7.3!aspectjweaver.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.trace#trace-sigar-libs;0.1.5!trace-sigar-libs.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 5646ms :: artifacts dl 94ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 1576ms :: artifacts dl 57ms[0m
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT compile produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT runtime produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT test produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-test.xml[0m
@@ -7969,5 +7969,5 @@
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT echo-trace-test produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-echo-trace-test.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT echo-weave produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-echo-weave.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#play_slick_web_2.10;1.0-SNAPSHOT echo-sigar produced in /Users/cray/Documents/workspace-scala/play_slick_web/target/resolution-cache/reports/default-play_slick_web_2.10-echo-sigar.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (5646ms resolve - 94ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (1576ms resolve - 57ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

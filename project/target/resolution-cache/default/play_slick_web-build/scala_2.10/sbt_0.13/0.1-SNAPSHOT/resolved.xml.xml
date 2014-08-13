@@ -4,7 +4,7 @@
 		module="play_slick_web-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20140810152400"
+		publication="20140813231207"
 		e:scalaVersion="2.10" e:sbtVersion="0.13"
 	>
 		<description>

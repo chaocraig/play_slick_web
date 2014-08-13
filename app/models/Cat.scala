@@ -4,9 +4,9 @@ import play.api.db.slick.Config.driver.simple._
 
 case class Cat(create_at: String, uid: String, bala: String, ip:String, url: String, headers: String)
 
-case class Ats(create_at: String, ip: String, action_type: String, goalId:String, url: String, headers: String)
+case class Ats(create_at: String, ip: String, action_type: String, goalId:String, gaid:String, url: String, headers: String)
 
-case class Conv(create_at: String, uid: String, ip:String)
+case class Conv(create_at: String, uid: String, ip:String, goalId:String, gaid:String)
 
 
 /* Table mapping
@@ -34,10 +34,11 @@ class AtsTable(tag: Tag) extends Table[Ats](tag, "ATS") {
   def ip = column[String]("ip", O.NotNull)
   def action_type = column[String]("action_type", O.NotNull)
   def goalId = column[String]("goalId", O.NotNull)
+  def gaid = column[String]("gaid", O.NotNull)
   def url = column[String]("url", O.DBType("varchar(1024)"))
   def headers = column[String]("headers", O.DBType("varchar(2048)"))
 
-  def * = (create_at, ip, action_type, goalId, url, headers) <> (Ats.tupled, Ats.unapply _)
+  def * = (create_at, ip, action_type, goalId, gaid, url, headers) <> (Ats.tupled, Ats.unapply _)
 }
 
 /* Table mapping
@@ -47,7 +48,9 @@ class ConvTable(tag: Tag) extends Table[Conv](tag, "CONV") {
   def create_at = column[String]("create_at", O.NotNull)
   def uid = column[String]("uid", O.NotNull)
   def ip = column[String]("ip", O.NotNull)
+  def goalId = column[String]("goalId", O.NotNull)
+  def gaid = column[String]("gaid", O.NotNull)
 
-  def * = (create_at, uid, ip) <> (Conv.tupled, Conv.unapply _)
+  def * = (create_at, uid, ip, goalId, gaid) <> (Conv.tupled, Conv.unapply _)
 }
 

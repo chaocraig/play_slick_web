@@ -68,6 +68,7 @@ object Application extends Controller{
       "ip" -> text(),
       "action_type" -> text(),
       "goalId" -> text(),
+      "gaid" -> text(),
       "url" -> text(),
       "headers" -> text()
     )(Ats.apply)(Ats.unapply)
@@ -78,7 +79,9 @@ object Application extends Controller{
     mapping(
       "create_at" -> text(),
       "uid" -> text(),
-      "ip" -> text()
+      "ip" -> text(),
+      "goalId" -> text(),
+      "gaid" -> text()
     )(Conv.apply)(Conv.unapply)
   )
 
@@ -160,23 +163,23 @@ object Application extends Controller{
    }
 
 
-   def getAts(rs:RequestHeader, action_type:String, goalId:String) = {
+   def getAts(rs:RequestHeader, action_type:String, goalId:String, gaid:String) = {
 
        val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
        val ips = rs.headers.get("X-Forwarded-For").getOrElse(NO_IP_STR)  //x-forwarded-for ???
        val client_ip = getPublicIp(ips)
        val url = rs.uri
        val headers = rs.headers.toString
-       val ats = Ats(create_at, client_ip, action_type, goalId, url, headers)
+       val ats = Ats(create_at, client_ip, action_type, goalId, gaid, url, headers)
        ats
    }
 
   
-   def ats_conversion(rs:RequestHeader, action_type:String, goalId:String):String = {
+   def ats_conversion(rs:RequestHeader, action_type:String, goalId:String, gaid:String):String = {
        
        if ( action_type==ATS_CONVERSION && goalId==GOAL_ID) {
           play.api.db.slick.DB.withSession { implicit session =>
-                val ats=getAts(rs, action_type, goalId)
+                val ats=getAts(rs, action_type, goalId, gaid)
                 atsDb.insert(ats)
 
                 val nearestID = cats.filter(_.ip === ats.ip).sortBy(_.column[String]("create_at").desc).take(1)
@@ -195,7 +198,7 @@ object Application extends Controller{
                          val cat = nearestID.list.head
                          if (cat == Nil) {}
                          else {
-                             val conv = Conv(cat.create_at, cat.uid, cat.ip) 
+                             val conv = Conv(cat.create_at, cat.uid, cat.ip, goalId, gaid) 
                              convDb.insert(conv)
                              msg2 = cat.uid+"\nInsert: " + conv.toString
                              runShellHtpps(cat.uid)
@@ -205,7 +208,7 @@ object Application extends Controller{
                  }
                  msg+"ATS_IP="+ats.ip+"\nID: "+msg2
             }
-         } else (action_type+":goalId: "+goalId)
+         } else (action_type+":goalId: \n"+goalId)
          
    }
 
@@ -216,15 +219,12 @@ object Application extends Controller{
        val json_data = decodeGoalAd(data, p)
        
        val msg_json = Json.parse(json_data)
-       val goalId = (msg_json \ "goalId").asOpt[String]
+       val goalId = (msg_json \ "goalId").as[String]
+       val gaid  = (msg_json \ "advertising_id").as[String]
         
-        goalId match {
-            case Some(goalId_str:String) => {
-                val msg = ats_conversion(rs, ATS_ACTIVATION, goalId_str)
-                Ok(goalId+":Success! "+msg)
-            }
-            case _ => Ok(goalId+":No goalId False! "+json_data.toString)
-        }    
+        val msg = ats_conversion(rs, ATS_ACTIVATION, goalId, gaid)
+        Ok(GOAL_ID+":Success! "+msg)
+       
         
    }
   
@@ -235,16 +235,12 @@ object Application extends Controller{
        val json_data = decodeGoalAd(data, p)
        
        val msg_json = Json.parse(json_data)
-       val goalId = (msg_json \ "goalId").asOpt[String]
+       val goalId = (msg_json \ "goalId").as[String]
+       val gaid  = (msg_json \ "advertising_id").as[String]
         
-        goalId match {
-            case Some(goalId_str:String) => {
-                val msg = ats_conversion(rs, ATS_CONVERSION, goalId_str)
-                Ok(goalId+":Success! "+msg)
-            }
-            case _ => Ok(goalId+":No goalId False! "+json_data.toString)
-        }    
-        
+        val msg = ats_conversion(rs, ATS_CONVERSION, goalId, gaid)
+        Ok(GOAL_ID+":Success! "+msg)
+       
    }
 }
 
