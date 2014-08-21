@@ -1,38 +1,38 @@
-2014-08-13 23:28:45,000 - [INFO] - from play in pool-57-thread-1 
+2014-08-21 16:16:12,831 - [INFO] - from play in pool-33-thread-5 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2014-08-13 23:29:22,409 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
+2014-08-21 16:16:22,253 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in play-internal-execution-context-1 
 JDBC URL = jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8, Username = root, partitions = 1, max (per partition) = 30, min (per partition) = 5, idle max age = 10 min, idle test period = 1 min, strategy = DEFAULT
 
-2014-08-13 23:29:22,625 - [INFO] - from play in play-internal-execution-context-1 
+2014-08-21 16:16:22,498 - [INFO] - from play in play-internal-execution-context-1 
 database [default] connected at jdbc:mysql://localhost/TurnDB?characterEncoding=UTF-8
 
-2014-08-13 23:29:23,911 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-08-21 16:16:23,912 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%'
 
-2014-08-13 23:29:23,914 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
+2014-08-21 16:16:23,914 - [DEBUG] - from com.jolbox.bonecp.StatementHandle in play-internal-execution-context-1 
 
             select id, hash, apply_script, revert_script from play_evolutions order by id
         
 
-2014-08-13 23:29:24,024 - [INFO] - from play in play-internal-execution-context-1 
+2014-08-21 16:16:24,021 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2014-08-13 23:29:28,086 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-INSERT INTO `ATS` (`create_at`,`ip`,`action_type`,`goalId`,`gaid`,`url`,`headers`) VALUES ('2014-08-13 23:29:28:0090','X','20013','7477abcd123456abcd123456abcd12345688','eea825f2-22aa-4465-9866-0e9f56ea58fe','/api/goalAdConversion','ArrayBuffer((Origin,ArrayBuffer(chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm)), (Connection,ArrayBuffer(keep-alive)), (Content-Length,ArrayBuffer(1096)), (Accept,ArrayBuffer(*/*)), (Cache-Control,ArrayBuffer(no-cache)), (Content-Type,ArrayBuffer(application/x-www-form-urlencoded)), (Accept-Language,ArrayBuffer(zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4)), (Accept-Encoding,ArrayBuffer(gzip,deflate,sdch)), (User-Agent,ArrayBuffer(Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36)), (Host,ArrayBuffer(localhost:9000)))')
+2014-08-21 16:16:26,784 - [DEBUG] - from application in play-akka.actor.default-dispatcher-2 
+goalAdActivation...
 
-2014-08-13 23:29:28,234 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-select x2.`create_at`, x2.`uid`, x2.`bala`, x2.`ip`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`uid` as `uid`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`ip` as `ip`, x3.`bala` as `bala` from `CAT` x3 where x3.`ip` = 'X' order by x3.`create_at` desc limit 1) x2
 
-2014-08-13 23:29:28,261 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-select x2.`create_at`, x2.`uid`, x2.`bala`, x2.`ip`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`uid` as `uid`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`ip` as `ip`, x3.`bala` as `bala` from `CAT` x3 where x3.`ip` = 'X' order by x3.`create_at` desc limit 1) x2
+2014-08-21 16:16:27,143 - [DEBUG] - from application in play-akka.actor.default-dispatcher-2 
+json_data={"mnc":"92","imei":"0f607264fc6318a92b9e13c65db7cd3c","deviceOsName":"iPhone OS","deviceOsVersion":"7.1.2","sdkName":"iPhone","networkOperatorName":"中華電信","lon":"0.000000","userAgent":"Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257 Mojo/IOS/7.1.2/1.9","reqAdWidth":"0","mcc":"466","networkInfo":"","screenWidth":"320","screenHeight":"480","macAddress":"02:00:00:00:00:00","macId":"0f607264fc6318a92b9e13c65db7cd3c","deviceFullName":"iPhone4,1","deviceName":"iPhone","locationAccuracy":"0.000000","reqAdHeight":"0","licensekey":"","adv_id":"07D98845-3102-4932-A596-DA001E6DC225","goalId":"54570360996264524e06bb83dc12da476b06","lat":"0.000000","method":"Activation","backupId":"8b458448540ec29b844050c9e81a625a5be62666","sdkVersion":"1.1.2"}
 
-2014-08-13 23:29:28,282 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-select x2.`create_at`, x2.`uid`, x2.`bala`, x2.`ip`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`uid` as `uid`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`ip` as `ip`, x3.`bala` as `bala` from `CAT` x3 where x3.`ip` = 'X' order by x3.`create_at` desc limit 1) x2
+2014-08-21 16:16:27,323 - [DEBUG] - from application in play-akka.actor.default-dispatcher-2 
+imei? --> 
 
-2014-08-13 23:29:28,303 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-select x2.`create_at`, x2.`uid`, x2.`bala`, x2.`ip`, x2.`url`, x2.`headers` from (select x3.`url` as `url`, x3.`uid` as `uid`, x3.`headers` as `headers`, x3.`create_at` as `create_at`, x3.`ip` as `ip`, x3.`bala` as `bala` from `CAT` x3 where x3.`ip` = 'X' order by x3.`create_at` desc limit 1) x2
+2014-08-21 16:16:27,323 - [DEBUG] - from application in play-akka.actor.default-dispatcher-2 
+0f607264fc6318a92b9e13c65db7cd3c OK
 
-2014-08-13 23:29:28,305 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-2 
-INSERT INTO `CONV` (`create_at`,`uid`,`ip`,`goalId`,`gaid`) VALUES ('N','VVVV','X','7477abcd123456abcd123456abcd12345688','eea825f2-22aa-4465-9866-0e9f56ea58fe')
+
+2014-08-21 16:16:27,324 - [DEBUG] - from application in play-akka.actor.default-dispatcher-2 
+goalId=54570360996264524e06bb83dc12da476b06, gaid=0f607264fc6318a92b9e13c65db7cd3c
+
 

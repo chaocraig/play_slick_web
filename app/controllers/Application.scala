@@ -11,6 +11,10 @@ import play.api.Play.current
 import play.api.mvc.BodyParsers._
 import play.api.libs.json.Json
 import play.api.libs.json.Json._
+import play.api.libs.json._
+import play.api.Logger 
+
+
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormatter
@@ -132,12 +136,14 @@ object Application extends Controller{
   def turn(uid: String, bala1:String) = DBAction {  rs =>
     //val userID: Option[String] = request.getQueryString("userID")
     //val bala: Option[String] = request.getQueryString("bala")
+      Logger.debug("turn...\n")
       val create_at = DateTime.now.toString("yyyy-MM-dd HH:mm:ss:SSSS")
       val url = rs.uri
       val headers = rs.headers.toString
       val ips = rs.remoteAddress  //x-forwarded-for ???
       val ip = getPublicIp(ips)
       val cat = Cat(create_at, uid, bala1, ip, url, headers)
+      Logger.debug("\n------\n"+cat.toString+"\n------\n")
       
       play.api.db.slick.DB.withSession{ implicit session =>
          cats.insert(cat)
@@ -212,15 +218,52 @@ object Application extends Controller{
          
    }
 
+
+   def get_id(msg_json:JsValue):String = {
+       
+       var imei = ""
+       try {
+          Logger.debug("imei? --> ")
+          imei = (msg_json \ "imei").as[String]  //lucky to have imei
+          Logger.debug(imei + " OK\n")
+       } catch {
+           case e: JsResultException => try {
+              Logger.debug("advertising_id? --> ")
+              imei = (msg_json \ "advertising_id").as[String] //if android
+              Logger.debug(imei + " OK\n")
+           } catch  {
+               case e: JsResultException => try {
+                  Logger.debug("adv_id? --> ") 
+                  imei = (msg_json \ "adv_id").as[String] //if iOS
+                  Logger.debug(imei + " OK\n")
+               } catch {
+                  case e: JsResultException => {
+                      Logger.debug(" No matched id!\n")
+                      imei = ""
+                  }
+               }
+           }
+       }
+ 
+       imei
+   }
+   
+   
    def goalAdActivation = Action { implicit rs => 
       
+       
+       Logger.debug("goalAdActivation...\n")
        val p = rs.body.asFormUrlEncoded.get("p").head
        val data = rs.body.asFormUrlEncoded.get("data").head
        val json_data = decodeGoalAd(data, p)
+       Logger.debug("json_data=" + json_data)
        
        val msg_json = Json.parse(json_data)
+       
        val goalId = (msg_json \ "goalId").as[String]
-       val gaid  = (msg_json \ "advertising_id").as[String]
+       val gaid  = get_id(msg_json)
+       Logger.debug("goalId="+goalId+", gaid="+gaid+"\n")
+        
         
         val msg = ats_conversion(rs, ATS_ACTIVATION, goalId, gaid)
         Ok(GOAL_ID+":Success! "+msg)
@@ -230,13 +273,16 @@ object Application extends Controller{
   
    def goalAdConversion = Action { implicit  rs =>
       
+       Logger.debug("goalAdActivation...\n")
        val p = rs.body.asFormUrlEncoded.get("p").head
        val data = rs.body.asFormUrlEncoded.get("data").head
        val json_data = decodeGoalAd(data, p)
+       Logger.debug("json_data=" + json_data)
        
        val msg_json = Json.parse(json_data)
        val goalId = (msg_json \ "goalId").as[String]
-       val gaid  = (msg_json \ "advertising_id").as[String]
+       val gaid = get_id(msg_json)
+        Logger.debug("goalId="+goalId+", gaid="+gaid+"\n")
         
         val msg = ats_conversion(rs, ATS_CONVERSION, goalId, gaid)
         Ok(GOAL_ID+":Success! "+msg)
